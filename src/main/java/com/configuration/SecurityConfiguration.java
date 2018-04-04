@@ -47,8 +47,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+                .antMatchers("/registration").permitAll() //permitAll() is public and accessible by anyone
+                .antMatchers("/admin/**").hasAuthority("ADMIN") //anything under the admin page is only accessible by user with admin authority
+                .anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/admin/home")

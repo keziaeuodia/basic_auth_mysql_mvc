@@ -1,18 +1,23 @@
 package com.controller;
 
 
+import com.exception.APIUnavailableException;
+import com.exception.CustomException;
 import com.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.service.UserService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 public class LoginController {
@@ -68,5 +73,18 @@ public class LoginController {
         return modelAndView;
     }
 
+    @RequestMapping("/generror1")
+    public ArrayList<User> generror1() throws APIUnavailableException {
+        throw new APIUnavailableException();
+    }
+
+    @ExceptionHandler({CustomException.class})
+    public CustomException databaseError() {
+        CustomException c = new CustomException();
+        c.setStatus(400);
+        c.setMessage("There's a problem guys.");
+        c.setReason("No idea... sorry guys.");
+        return c;
+    }
 
 }
